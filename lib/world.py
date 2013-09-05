@@ -7,9 +7,8 @@ class World:
 
     def draw(self, surf):
         for tri in self._triangulate():
-            tri = list(tri)
-            tri.append(tri[0]) # Add final side for drawing purposes
-            pygame.draw.aalines(surf, pygame.Color(255,255,0), False, tri)
+            pygame.draw.polygon(surf, pygame.Color(100,100,100), tri)
+            pygame.draw.lines(surf, pygame.Color(255,255,0), True, tri)
 
         pygame.draw.aalines(surf, pygame.Color(255,255,255), False, self.ground)
 
@@ -33,6 +32,11 @@ class World:
         print("------------")
         # If slope is negative, slopes up
         # If slope is positive, slopes down
+
+        for tri in self._triangulate():
+            result = self._point_in_triangle(player.position, tri[0], tri[1], tri[2])
+            print("result: %s" % result)
+
 
     def _is_left(self, line, point):
         a = line[0]; b = line[1]
@@ -80,3 +84,11 @@ class World:
                 tris.append((seg[1], (640,y), (x,y)))
 
         return tris
+
+    def _point_in_triangle(self, p, p0, p1, p2):
+        A = 1.0/2.0 * (-p1[1] * p2[0] + p0[1] * (-p1[0] + p2[0]) + p0[0] * (p1[1] - p2[1]) + p1[0] * p2[1])
+        sign = -1 if A < 0 else 1
+        s = (p0[1] * p2[0] - p0[0] * p2[1] + (p2[1] - p0[1]) * p[0] + (p0[0] - p2[0]) * p[1]) * sign
+        t = (p0[0] * p1[1] - p0[1] * p1[0] + (p0[1] - p1[1]) * p[0] + (p1[0] - p0[0]) * p[1]) * sign
+
+        return s > 0 and t > 0 and (s + t) < 2 * A * sign;
