@@ -33,9 +33,11 @@ class World:
         # If slope is negative, slopes up
         # If slope is positive, slopes down
 
-        for tri in self._triangulate():
+        tris = self._triangulate()
+        for tri in tris:
             result = self._point_in_triangle(player.position, tri[0], tri[1], tri[2])
-            print("result: %s" % result)
+            print("tri: %s, result: %s" % (tri, result))
+        print("triangles: %s" % len(tris))
 
 
     def _is_left(self, line, point):
@@ -67,15 +69,19 @@ class World:
         tris = []
         segments = self._get_segments()
         size = len(segments)
+        last_p = (0,480)
+
         for i in range(size):
             seg = segments[i]
             x = seg[0][0] + ((seg[1][0] - seg[0][0]) / 2)
             y = 480
-            tri = (seg[0], seg[1], (x,y))
+            point = (x,y)
+            tri = (seg[0], seg[1], point)
 
-            # Create first tri, unless it is in the corner
-            if i == 0 and seg[0][1] != y:
-                tris.append(((0,y), seg[0], (x,y)))
+            # Create intermediary tri, unless it is in the corner
+            if seg[0][1] != y:
+                tris.append((last_p, seg[0], point))
+            last_p = (x,y) # Move to the next point
 
             tris.append(tri)
 
