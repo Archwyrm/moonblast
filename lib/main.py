@@ -29,7 +29,7 @@ def handle_events():
                 world.checked = False
         elif event.type == MOUSEBUTTONUP:
             if event.button == 1:
-                player.position = event.pos
+                player.position[0], player.position[1] = event.pos[0], event.pos[1]
                 world.checked = False
 
 def game_loop():
@@ -39,6 +39,7 @@ def game_loop():
 
     while True:
         handle_events()
+        world.update(player)
         world.collide(player)
 
         # Draw

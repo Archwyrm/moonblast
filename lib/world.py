@@ -4,6 +4,10 @@ class World:
     def __init__(self):
         self.ground = ((0,400),(200,250),(320,350),(400,300),(640,400))
         self.checked = False
+        self.gravity = 1.622 # m/s^2
+
+    def update(self, player):
+        player.position[1] = player.position[1] + self.gravity
 
     def draw(self, surf):
         for tri in self._triangulate():
@@ -13,40 +17,12 @@ class World:
         pygame.draw.aalines(surf, pygame.Color(255,255,255), False, self.ground)
 
     def collide(self, player):
-        if self.checked:
-            return
-
-        for segment in self._get_segments():
-            if self._is_left(segment, player.position):
-                print("Left")
-                if self._get_slope(segment) < 0:
-                    print("Penetrating")
-            else:
-                print("Right")
-                if self._get_slope(segment) > 0:
-                    print("Penetrating")
-            #else:
-               # print("We're good")
-            print("Slope: %s" % self._get_slope(segment))
-        self.checked = True
-        print("------------")
-        # If slope is negative, slopes up
-        # If slope is positive, slopes down
-
         tris = self._triangulate()
         for tri in tris:
-            result = self._point_in_triangle(player.position, tri[0], tri[1], tri[2])
-            print("tri: %s, result: %s" % (tri, result))
-        print("triangles: %s" % len(tris))
-
-
-    def _is_left(self, line, point):
-        a = line[0]; b = line[1]
-        if a[1] < b[1]: # If y1 < y2..
-            a, b = b, a # Swap so our idea of 'right' and 'left' is consistent
-        #print("a: %s, b: %s, player: %s" % (a, b, point))
-        return ((b[0] - a[0]) * (point[1] - a[1])
-               -(b[1] - a[1]) * (point[0] - a[0])) > 0
+            point = (player.position[0] + player.bb[0], player.position[1] + player.bb[1])
+            while self._point_in_triangle(point, tri[0], tri[1], tri[2]):
+                player.position[1] = player.position[1] + (-1 * self.gravity)
+                point = (player.position[0] + player.bb[0], player.position[1] + player.bb[1])
 
     def _get_segments(self):
         """Returns currently visible line segments."""
