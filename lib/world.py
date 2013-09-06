@@ -19,10 +19,19 @@ class World:
     def collide(self, player):
         tris = self._triangulate()
         for tri in tris:
-            point = (player.position[0] + player.bb[0], player.position[1] + player.bb[1])
-            while self._point_in_triangle(point, tri[0], tri[1], tri[2]):
-                player.position[1] = player.position[1] + (-1 * self.gravity)
-                point = (player.position[0] + player.bb[0], player.position[1] + player.bb[1])
+            for i in range(2):
+                point = self._get_rect_corners(player.position, player.bb)[i]
+                while self._point_in_triangle(point, tri[0], tri[1], tri[2]):
+                    player.position[1] = player.position[1] + (-1 * self.gravity)
+                    point = self._get_rect_corners(player.position, player.bb)[i]
+
+    def _get_rect_corners(self, point, bb):
+        """Returns two points for each bottom corner of a bounding box
+        based on a fixed point."""
+        points = list()
+        points.append([point[0], point[1] + bb[1]]) # Bottom left
+        points.append([point[0] + bb[0], point[1] + bb[1]]) # Bottom right
+        return points
 
     def _get_segments(self):
         """Returns currently visible line segments."""
