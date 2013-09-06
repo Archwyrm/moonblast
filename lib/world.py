@@ -3,7 +3,6 @@ import pygame
 class World:
     def __init__(self):
         self.ground = ((0,400),(200,250),(320,350),(400,300),(640,400))
-        self.checked = False
         self.gravity = 1.622 # m/s^2
 
     def update(self, player):

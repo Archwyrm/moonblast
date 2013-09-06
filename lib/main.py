@@ -1,5 +1,6 @@
 from world import World
 from player import Player
+from input import Controller
 
 import pygame
 from pygame.locals import *
@@ -13,32 +14,31 @@ def init_gfx():
     window = pygame.display.set_mode((640,480))
     pygame.display.set_caption('Moon Blasters')
 
-def handle_events():
+def handle_events(controller):
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
         elif event.type == KEYDOWN:
-            if event.key == K_LEFT:
-                player.move_left()
-            elif event.key == K_RIGHT:
-                player.move_right()
-            elif event.key == K_ESCAPE:
+            if event.key == K_ESCAPE:
                 pygame.event.post(pygame.event.Event(QUIT))
-            elif event.key == K_c:
-                world.checked = False
+            else:
+                controller.key_down(event)
+        elif event.type == KEYUP:
+            controller.key_up(event)
         elif event.type == MOUSEBUTTONUP:
             if event.button == 1:
                 player.position[0], player.position[1] = event.pos[0], event.pos[1]
-                world.checked = False
 
 def game_loop():
-    global world, player
+    global world, player, controller
     world = World()
     player = Player()
+    controller = Controller(player)
 
     while True:
-        handle_events()
+        handle_events(controller)
+        controller.update()
         world.update(player)
         world.collide(player)
 
