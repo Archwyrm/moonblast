@@ -12,14 +12,14 @@ class World(object):
         self.players = list()
         self.entities = list()
 
-    def update(self, player):
-        ent_list = self.players
+    def update(self):
+        ent_list = self.entities + self.players
         for p in self.players:
             self._constrain_in_level(p)
 
         for entity in ent_list:
             self.collide(entity)
-            player.update()
+            entity.update()
 
     def draw(self, surf):
         for tri in self._triangulate():
@@ -27,6 +27,10 @@ class World(object):
             pygame.draw.lines(surf, pygame.Color(255,255,0), True, tri)
 
         pygame.draw.aalines(surf, pygame.Color(255,255,255), False, self.ground)
+
+        ent_list = self.entities + self.players
+        for entity in ent_list:
+            entity.draw(surf)
 
     def add_player(self, player):
         self.players.append(player)

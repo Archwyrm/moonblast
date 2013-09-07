@@ -1,5 +1,6 @@
 from world import World
 from player import Player
+from opfor import Alien
 from input import Controller
 
 import pygame
@@ -34,18 +35,20 @@ def game_loop():
     global player
     world = World()
     player = Player([340,300])
+    alien = Alien([600,300])
+
     world.add_player(player)
+    world.add_entity(alien)
     controller = Controller(player)
 
     while True:
         handle_events(controller)
         controller.update()
-        world.update(player)
+        world.update()
 
         # Draw
         window.fill(pygame.Color(0,0,0))
         world.draw(window)
-        player.draw(window)
         pygame.display.update()
         clock.tick(30)
 
