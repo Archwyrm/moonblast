@@ -1,6 +1,7 @@
 import pygame
 
 GRAVITY = 1.622 # m/s^2
+AIR_RESISTANCE = 0.07
 
 
 class World:

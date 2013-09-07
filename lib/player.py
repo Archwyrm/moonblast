@@ -1,3 +1,4 @@
+import math
 import pygame
 
 import world
@@ -17,6 +18,7 @@ class Player:
     def update(self):
         self.position[0] += self.velocity[0] + self.move_velocity
         self.position[1] += self.velocity[1] + world.GRAVITY
+        self.move_velocity -= world.AIR_RESISTANCE * math.copysign(1, self.move_velocity)
         if self.on_ground:
             self.move_velocity = 0
 
