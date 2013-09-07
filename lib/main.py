@@ -31,9 +31,10 @@ def handle_events(controller):
                 player.position[0], player.position[1] = event.pos[0], event.pos[1]
 
 def game_loop():
-    global world, player
+    global player
     world = World()
-    player = Player()
+    player = Player([340,300])
+    world.add_player(player)
     controller = Controller(player)
 
     while True:

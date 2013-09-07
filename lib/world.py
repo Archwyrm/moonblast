@@ -6,12 +6,20 @@ AIR_RESISTANCE = 0.07
 
 class World:
     def __init__(self):
+        # TODO: Break out level code into a level module
         self.ground = ((0,400),(200,250),(320,350),(400,300),(640,400))
         self.level_bounds = (0, 640) # Left and right limits for the level
+        self.players = list()
+        self.entities = list()
 
     def update(self, player):
-        self.collide(player)
-        player.update()
+        ent_list = self.players
+        for p in self.players:
+            self._constrain_in_level(p)
+
+        for entity in ent_list:
+            self.collide(entity)
+            player.update()
 
     def draw(self, surf):
         for tri in self._triangulate():
@@ -20,22 +28,29 @@ class World:
 
         pygame.draw.aalines(surf, pygame.Color(255,255,255), False, self.ground)
 
-    def collide(self, player):
-        # Constrain the player within the level
+    def add_player(self, player):
+        self.players.append(player)
+
+    def add_entity(self, entity):
+        self.entities.append(entity)
+
+    def collide(self, entity):
+        tris = self._triangulate()
+        entity.on_ground = False
+        for tri in tris:
+            for i in range(2):
+                point = self._get_rect_corners(entity.position, entity.bb)[i]
+                while self._point_in_triangle(point, tri[0], tri[1], tri[2]):
+                    entity.position[1] = entity.position[1] + (-1 * GRAVITY)
+                    point = self._get_rect_corners(entity.position, entity.bb)[i]
+                    entity.on_ground = True
+
+    def _constrain_in_level(self, player):
+        """Constrain the passed player within the level."""
         if player.position[0] < self.level_bounds[0]:
             player.position[0] = self.level_bounds[0]
         elif player.position[0] > self.level_bounds[1]:
             player.position[0] = self.level_bounds[1] - player.bb[0]
-
-        tris = self._triangulate()
-        player.on_ground = False
-        for tri in tris:
-            for i in range(2):
-                point = self._get_rect_corners(player.position, player.bb)[i]
-                while self._point_in_triangle(point, tri[0], tri[1], tri[2]):
-                    player.position[1] = player.position[1] + (-1 * GRAVITY)
-                    point = self._get_rect_corners(player.position, player.bb)[i]
-                    player.on_ground = True
 
     def _get_rect_corners(self, point, bb):
         """Returns two points for each bottom corner of a bounding box
