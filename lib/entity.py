@@ -4,9 +4,20 @@ import pygame
 
 import world
 
-class Character(object):
+class Entity(object):
     def __init__(self, position):
         self.position = position
+        self.bb = (20, 20) # Bounding box
+
+    def update(self):
+        pass
+
+    def draw(self, surf):
+        pass
+
+class Character(Entity):
+    def __init__(self, position):
+        super(Character, self).__init__(position)
         self.bb = (20, 20) # Bounding box
 
         self.speed = 5 # Max speed
