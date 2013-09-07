@@ -7,6 +7,7 @@ AIR_RESISTANCE = 0.07
 class World:
     def __init__(self):
         self.ground = ((0,400),(200,250),(320,350),(400,300),(640,400))
+        self.level_bounds = (0, 640) # Left and right limits for the level
 
     def update(self, player):
         self.collide(player)
@@ -20,6 +21,12 @@ class World:
         pygame.draw.aalines(surf, pygame.Color(255,255,255), False, self.ground)
 
     def collide(self, player):
+        # Constrain the player within the level
+        if player.position[0] < self.level_bounds[0]:
+            player.position[0] = self.level_bounds[0]
+        elif player.position[0] > self.level_bounds[1]:
+            player.position[0] = self.level_bounds[1] - player.bb[0]
+
         tris = self._triangulate()
         player.on_ground = False
         for tri in tris:
