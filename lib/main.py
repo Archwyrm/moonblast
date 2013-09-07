@@ -53,6 +53,13 @@ def game_loop():
         pygame.display.update()
         clock.tick(30)
 
+def init_sound():
+    # TODO: os.path.join('data', 'foo.ogg')
+    ctx.sounds['shoot'] = pygame.mixer.Sound('data/hit.wav')
+    pygame.mixer.music.load('data/DST-RailJet-LongSeamlessLoop.ogg')
+    pygame.mixer.music.play(-1)
+
 def main():
     init_gfx()
+    init_sound()
     game_loop()

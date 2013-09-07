@@ -2,3 +2,4 @@
 import world
 
 world = world.World()
+sounds = dict()
