@@ -5,6 +5,8 @@ import pygame
 import world
 
 class Entity(object):
+    type = "Entity"
+
     def __init__(self, position):
         self.position = position
         self.bb = (20, 20) # Bounding box
@@ -16,6 +18,8 @@ class Entity(object):
         pass
 
 class Character(Entity):
+    type = "Character"
+
     def __init__(self, position):
         super(Character, self).__init__(position)
         self.bb = (20, 20) # Bounding box
@@ -54,6 +58,8 @@ class Character(Entity):
             self.move_velocity += speed
 
 class Projectile(Entity):
+    type = "Projectile"
+
     def __init__(self, position, velocity):
         super(Projectile, self).__init__(position)
         self.position = position

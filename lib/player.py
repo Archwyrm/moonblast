@@ -4,6 +4,8 @@ from ctx import world
 import pygame
 
 class Player(Character):
+    type = "Player"
+
     def __init__(self, position):
         super(Player, self).__init__(position)
         self.color = pygame.Color(255,0,0)

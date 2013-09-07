@@ -14,10 +14,13 @@ class World(object):
 
     def update(self):
         ent_list = self.entities + self.players
-        for p in self.players:
-            self._constrain_in_level(p)
 
         for entity in ent_list:
+            if entity.type == "Player":
+                self._constrain_player_in_level(entity)
+            elif entity.type == "Projectile":
+                self._constrain_projectile_in_level(entity)
+
             self.collide(entity)
             entity.update()
 
@@ -38,6 +41,9 @@ class World(object):
     def add_entity(self, entity):
         self.entities.append(entity)
 
+    def remove_entity(self, entity):
+        self.entities.remove(entity)
+
     def collide(self, entity):
         tris = self._triangulate()
         entity.on_ground = False
@@ -49,7 +55,14 @@ class World(object):
                     point = self._get_rect_corners(entity.position, entity.bb)[i]
                     entity.on_ground = True
 
-    def _constrain_in_level(self, player):
+    def _constrain_projectile_in_level(self, proj):
+        """Constrain the passed projectle within the level by removing it."""
+        if proj.position[0] < self.level_bounds[0]:
+            self.remove_entity(proj)
+        elif proj.position[0] > self.level_bounds[1]:
+            self.remove_entity(proj)
+
+    def _constrain_player_in_level(self, player):
         """Constrain the passed player within the level."""
         if player.position[0] < self.level_bounds[0]:
             player.position[0] = self.level_bounds[0]
