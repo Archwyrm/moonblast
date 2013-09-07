@@ -55,7 +55,8 @@ def game_loop():
         clock.tick(30)
 
 def init_sound():
-    ctx.sounds['shoot'] = pygame.mixer.Sound(os.path.join('data', 'hit.wav'))
+    ctx.sounds['shoot'] = pygame.mixer.Sound(os.path.join('data', 'shoot.wav'))
+    ctx.sounds['hit'] = pygame.mixer.Sound(os.path.join('data', 'hit.wav'))
     pygame.mixer.music.load(os.path.join('data', 'DST-RailJet-LongSeamlessLoop.ogg'))
     if not ctx.debug:
         pygame.mixer.music.play(-1)
