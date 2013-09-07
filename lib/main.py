@@ -2,6 +2,7 @@ from world import World
 from player import Player
 from opfor import Alien
 from input import Controller
+import ctx
 
 import pygame
 from pygame.locals import *
@@ -32,8 +33,8 @@ def handle_events(controller):
                 player.position[0], player.position[1] = event.pos[0], event.pos[1]
 
 def game_loop():
-    global player
-    world = World()
+    global world, player
+    world = ctx.world
     player = Player([340,300])
     alien = Alien([600,300])
 
