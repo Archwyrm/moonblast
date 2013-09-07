@@ -1,12 +1,15 @@
 import pygame
 
+GRAVITY = 1.622 # m/s^2
+
+
 class World:
     def __init__(self):
         self.ground = ((0,400),(200,250),(320,350),(400,300),(640,400))
-        self.gravity = 1.622 # m/s^2
 
     def update(self, player):
-        player.position[1] = player.position[1] + self.gravity
+        self.collide(player)
+        player.update()
 
     def draw(self, surf):
         for tri in self._triangulate():
@@ -17,12 +20,14 @@ class World:
 
     def collide(self, player):
         tris = self._triangulate()
+        player.on_ground = False
         for tri in tris:
             for i in range(2):
                 point = self._get_rect_corners(player.position, player.bb)[i]
                 while self._point_in_triangle(point, tri[0], tri[1], tri[2]):
-                    player.position[1] = player.position[1] + (-1 * self.gravity)
+                    player.position[1] = player.position[1] + (-1 * GRAVITY)
                     point = self._get_rect_corners(player.position, player.bb)[i]
+                    player.on_ground = True
 
     def _get_rect_corners(self, point, bb):
         """Returns two points for each bottom corner of a bounding box

@@ -31,7 +31,7 @@ def handle_events(controller):
                 player.position[0], player.position[1] = event.pos[0], event.pos[1]
 
 def game_loop():
-    global world, player, controller
+    global world, player
     world = World()
     player = Player()
     controller = Controller(player)
@@ -40,7 +40,6 @@ def game_loop():
         handle_events(controller)
         controller.update()
         world.update(player)
-        world.collide(player)
 
         # Draw
         window.fill(pygame.Color(0,0,0))
