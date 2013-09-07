@@ -3,3 +3,4 @@ import world
 
 world = world.World()
 sounds = dict()
+debug = True

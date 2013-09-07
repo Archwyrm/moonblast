@@ -28,7 +28,7 @@ def handle_events(controller):
                 controller.key_down(event)
         elif event.type == KEYUP:
             controller.key_up(event)
-        elif event.type == MOUSEBUTTONUP:
+        elif event.type == MOUSEBUTTONUP and not ctx.debug:
             if event.button == 1:
                 player.position[0], player.position[1] = event.pos[0], event.pos[1]
 
@@ -57,7 +57,8 @@ def init_sound():
     # TODO: os.path.join('data', 'foo.ogg')
     ctx.sounds['shoot'] = pygame.mixer.Sound('data/hit.wav')
     pygame.mixer.music.load('data/DST-RailJet-LongSeamlessLoop.ogg')
-    pygame.mixer.music.play(-1)
+    if not ctx.debug:
+        pygame.mixer.music.play(-1)
 
 def main():
     init_gfx()
