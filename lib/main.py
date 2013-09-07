@@ -6,6 +6,7 @@ import ctx
 
 import pygame
 from pygame.locals import *
+import os
 import sys
 
 def init_gfx():
@@ -54,9 +55,8 @@ def game_loop():
         clock.tick(30)
 
 def init_sound():
-    # TODO: os.path.join('data', 'foo.ogg')
-    ctx.sounds['shoot'] = pygame.mixer.Sound('data/hit.wav')
-    pygame.mixer.music.load('data/DST-RailJet-LongSeamlessLoop.ogg')
+    ctx.sounds['shoot'] = pygame.mixer.Sound(os.path.join('data', 'hit.wav'))
+    pygame.mixer.music.load(os.path.join('data', 'DST-RailJet-LongSeamlessLoop.ogg'))
     if not ctx.debug:
         pygame.mixer.music.play(-1)
 
