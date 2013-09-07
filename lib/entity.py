@@ -25,6 +25,7 @@ class Character(Entity):
         self.move_velocity = 0 # Movement velocity
         self.on_ground = False
 
+        self.facing = 1 # Entity's facing direction, positive == right
         self.color = pygame.Color(255,255,255)
 
     def update(self):
@@ -42,10 +43,26 @@ class Character(Entity):
 
     def move_left(self):
         self.move(-1 * self.speed)
+        self.facing = -1
 
     def move_right(self):
         self.move(self.speed)
+        self.facing = 1
 
     def move(self, speed):
         if self.on_ground:
             self.move_velocity += speed
+
+class Projectile(Entity):
+    def __init__(self, position, velocity):
+        super(Projectile, self).__init__(position)
+        self.position = position
+        self.velocity = velocity
+
+    def draw(self, surf):
+        pos = (int(self.position[0]), int(self.position[1]))
+        pygame.draw.circle(surf, pygame.Color("white"), pos, 2)
+
+    def update(self):
+        self.position[0] += self.velocity[0]
+        self.position[1] += self.velocity[1]

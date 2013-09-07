@@ -11,6 +11,7 @@ class Controller(object):
         self.bindings = {
             K_LEFT : player.move_left,
             K_RIGHT : player.move_right,
+            K_LALT : player.shoot,
         }
 
     def update(self):
