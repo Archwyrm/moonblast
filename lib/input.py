@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 
-class Controller:
+class Controller(object):
     """Associates input events with a player entity."""
 
     def __init__(self, player):

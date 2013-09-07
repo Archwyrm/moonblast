@@ -3,7 +3,7 @@ import pygame
 
 import world
 
-class Character:
+class Character(object):
     def __init__(self, position):
         self.position = position
         self.bb = (20, 20) # Bounding box

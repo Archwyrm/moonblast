@@ -4,7 +4,7 @@ GRAVITY = 1.622 # m/s^2
 AIR_RESISTANCE = 0.07
 
 
-class World:
+class World(object):
     def __init__(self):
         # TODO: Break out level code into a level module
         self.ground = ((0,400),(200,250),(320,350),(400,300),(640,400))
