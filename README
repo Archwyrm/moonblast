@@ -1,3 +1,26 @@
-A link to http://www.nosoapradio.us is required on any site containing this music or derivative works. (a credit to "Deceased Superior Technician" or "DST" would be nice, but is not required) 
+Moon Blasters - PyWeek 17
+=========================
 
-CC-BY 3.0
+Solo entry by Markus 'Archwyrm' Martin
+https://github.com/archwyrm/moonblast
+
+This entry is sadly lacking any real gameplay. Time constraints, naturally.
+The most interesting feature is probably movement over rough terrain with
+"moon gravity".
+
+Requirements:
+    Python 2
+    Pygame
+
+To play:
+    python2 run_game.py
+
+Controls:
+    Left arrow - Move left
+    Right arrrow - Move right
+    Alt - Fire
+
+See the file LICENSE for license information.
+
+DST-RailJet-LongSeamlessLoop.ogg - CC-BY 3.0 - http://www.nosoapradio.us
+A track by Deceased Superior Technician.
