@@ -1,3 +1,7 @@
+# Copyright (c) 2013 Markus Martin <markus@archwyrm.net>. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can
+# be found in the LICENSE file.
+
 from world import World
 from player import Player
 from opfor import Alien
